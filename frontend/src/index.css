@@ -1,0 +1,72 @@
+@tailwind base;
+
+@tailwind components;
+@tailwind utilities;
+
+img {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.page-body {
+  display: grid;
+  grid-template-areas:
+    "header header header "
+    "page-sidebar content content"
+    "page-sidebar content content";
+  grid-template-columns: 0.5fr 5fr 3fr;
+
+  row-gap: 20px;
+}
+.page-header {
+  grid-area: header;
+}
+
+.page-sidebar {
+  grid-area: page-sidebar;
+}
+
+.page-content {
+  grid-area: content;
+}
+
+.play-pause.paused {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+}
+
+.time-range,
+.volume {
+  position: absolute;
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  width: 100%;
+  position: absolute;
+  z-index: 3;
+}
+
+.time-range::-webkit-slider-runnable-track,
+.volume::-webkit-slider-runnable-track,
+.time-range::-moz-range-track,
+.volume::-moz-range-track {
+  background-color: transparent;
+  height: 4px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  position: relative;
+  height: 12px;
+  width: 12px;
+  margin-top: -4px;
+  background-color: black;
+  border-radius: 6px;
+}
+
+label:has(.quality-selected) {
+  background-color: gray;
+}
