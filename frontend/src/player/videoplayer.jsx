@@ -98,7 +98,6 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
   useEffect(() => {
     if (availableQualities) {
       for (let adaptationSet of availableQualities) {
-        console.log(adaptationSet.width);
       }
       let qualityList = [];
       qualityList.push(
@@ -121,7 +120,7 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
           ></input>
         </label>
       );
-      console.log(availableQualities);
+
       availableQualities.forEach((element, index) => {
         qualityList.push(
           <label key={index} htmlFor={`quality-${index}`}>
@@ -138,7 +137,6 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
                     },
                   });
                   player.setRepresentationForTypeByIndex("video", index);
-                  console.log(player.getCurrentRepresentationForType("video"));
                 }
               }}
               name="quality-option"
@@ -260,7 +258,6 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
           className="h-8 w-6 bg-no-repeat bg-contain ml-1"
           style={{ backgroundImage: `url("${fullScreenButton} ")` }}
           onClick={() => {
-            console.log(document.fullscreenElement);
             if (document.fullscreenElement) {
               document.exitFullscreen();
             } else {
