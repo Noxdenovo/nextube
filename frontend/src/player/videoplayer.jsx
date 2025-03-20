@@ -185,8 +185,8 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
     });
   }
   return (
-    <>
-      <div className="flex items-center gap-4 ">
+    <div className="relative ">
+      <div className="flex items-center gap-4  top-0">
         <div className="h-2 relative w-full">
           <span
             className=" h-1 block w-0 bg-gray-400 absolute buffered-amount z-[1] "
@@ -212,60 +212,63 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
             }}
           ></input>
         </div>
-        {currentFormattedTime}/{durationFormatted}
       </div>
-      <div>
+      <div class="flex justify-between">
+        <div className="flex  items-center justify-between gap-2 basis-60">
+          <button
+            onClick={handlePauseClick}
+            style={{
+              backgroundImage: !isVideoplaying ? `url("${playButton} ")` : `url("${pauseButton} ")`,
+            }}
+            className="play-pause paused "
+          ></button>
+          <button
+            onClick={() => {
+              if (currentVolume === 0) {
+                video.volume = 1;
+                setVolume(1);
+              } else {
+                video.volume = 0;
+                setVolume(0);
+              }
+            }}
+            className="h-6 w-6 bg-black bg-no-repeat bg-contain bg-center"
+            style={{
+              backgroundImage:
+                currentVolume > 0 ? `url("${volumeFullButton} ")` : `url("${volumeMutedButton} ")`,
+            }}
+          ></button>
+          <div className="h-1 relative grow ">
+            <span className="h-1 w-full block bg-gray-300 "></span>
+            <input
+              type="range"
+              className="volume  z-1 top-0"
+              value={currentVolume}
+              step="0.01"
+              max="1"
+              onInput={(e) => {
+                video.volume = e.target.value;
+                setVolume(e.target.value);
+              }}
+              ref={volumeRef}
+            ></input>
+          </div>
+          <div>
+            {currentFormattedTime}/{durationFormatted}
+          </div>
+        </div>
         <button
-          onClick={handlePauseClick}
-          style={{
-            backgroundImage: !isVideoplaying ? `url("${playButton} ")` : `url("${pauseButton} ")`,
-          }}
-          className="play-pause paused "
-        ></button>
-        <button
+          className="h-8 w-6 bg-no-repeat bg-contain ml-1"
+          style={{ backgroundImage: `url("${fullScreenButton} ")` }}
           onClick={() => {
-            if (currentVolume === 0) {
-              video.volume = 1;
-              setVolume(1);
-            } else {
-              video.volume = 0;
-              setVolume(0);
+            if (container.fullscreenElement) container.exitFullscreen();
+            else {
+              container.requestFullscreen();
             }
           }}
-          className="h-6 w-6 bg-black bg-no-repeat bg-contain bg-center"
-          style={{
-            backgroundImage:
-              currentVolume > 0 ? `url("${volumeFullButton} ")` : `url("${volumeMutedButton} ")`,
-          }}
         ></button>
-
-        <div className="h-1 relative">
-          <span className="h-1 w-full block bg-gray-300 "></span>
-          <input
-            type="range"
-            className="volume abosulute z-1 top-0"
-            value={currentVolume}
-            step="0.01"
-            max="1"
-            onInput={(e) => {
-              video.volume = e.target.value;
-              setVolume(e.target.value);
-            }}
-            ref={volumeRef}
-          ></input>
-        </div>
       </div>
       {qualityMenu}
-      <button
-        className="h-8 w-6 bg-no-repeat bg-contain "
-        style={{ backgroundImage: `url("${fullScreenButton} ")` }}
-        onClick={() => {
-          if (container.fullscreenElement) container.exitFullscreen();
-          else {
-            container.requestFullscreen();
-          }
-        }}
-      ></button>
-    </>
+    </div>
   );
 }
