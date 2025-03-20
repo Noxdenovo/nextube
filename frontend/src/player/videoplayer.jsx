@@ -260,8 +260,10 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
           className="h-8 w-6 bg-no-repeat bg-contain ml-1"
           style={{ backgroundImage: `url("${fullScreenButton} ")` }}
           onClick={() => {
-            if (container.fullscreenElement) container.exitFullscreen();
-            else {
+            console.log(document.fullscreenElement);
+            if (document.fullscreenElement) {
+              document.exitFullscreen();
+            } else {
               container.requestFullscreen();
             }
           }}
