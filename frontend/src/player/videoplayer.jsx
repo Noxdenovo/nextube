@@ -56,7 +56,6 @@ export function VideoPlayer({ videouuid, timeStampRef, startTime = 0 }) {
           onTimeUpdate={timeUpdate}
           className="rounded-t-xl w-full"
           ref={videoRef}
-          controls
           onPause={() => {
             setVideoPlaying(false);
           }}
@@ -185,7 +184,7 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
     });
   }
   return (
-    <div className="relative ">
+    <div className="absolute bottom-0 w-full ">
       <div className="flex items-center gap-4  top-0">
         <div className="h-2 relative w-full">
           <span
