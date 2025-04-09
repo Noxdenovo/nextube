@@ -76,7 +76,7 @@ export function VideoPlayer({ videouuid, timeStampRef, startTime = 0 }) {
 }
 //setting up the control elements
 function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, player, container }) {
-  const [currentFormattedTime, setFormattedTime] = useState(20);
+  const [currentFormattedTime, setFormattedTime] = useState("0:00");
   const [currentVolume, setVolume] = useState(1);
   const [currentPlayback, setPlayback] = useState(0);
 
@@ -182,7 +182,7 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
     });
   }
   return (
-    <div className="absolute bottom-0 w-full ">
+    <div className="absolute bottom-0 w-full controls-container z-1">
       <div className="flex items-center gap-4  top-0">
         <div className="h-2 relative w-full">
           <span
@@ -210,7 +210,7 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
           ></input>
         </div>
       </div>
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center">
         <div className="flex  items-center justify-between gap-2 basis-60">
           <button
             onClick={handlePauseClick}
@@ -229,7 +229,7 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
                 setVolume(0);
               }
             }}
-            className="h-6 w-6 bg-black bg-no-repeat bg-contain bg-center"
+            className="h-6 w-6 bg-no-repeat bg-contain bg-center"
             style={{
               backgroundImage:
                 currentVolume > 0 ? `url("${volumeFullButton} ")` : `url("${volumeMutedButton} ")`,
@@ -250,12 +250,12 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
               ref={volumeRef}
             ></input>
           </div>
-          <div>
+          <div className="formatted-time">
             {currentFormattedTime}/{durationFormatted}
           </div>
         </div>
         <button
-          className="h-8 w-6 bg-no-repeat bg-contain ml-1"
+          className="h-8 w-6 bg-no-repeat bg-contain bg-center ml-1 mr-2"
           style={{ backgroundImage: `url("${fullScreenButton} ")` }}
           onClick={() => {
             if (document.fullscreenElement) {
