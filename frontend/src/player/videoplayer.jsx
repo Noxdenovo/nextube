@@ -57,8 +57,6 @@ export function VideoPlayer({ videouuid, timeStampRef, startTime = 0 }) {
   }, 2000);
 
   function controlsOnHover() {
-    console.log(controls);
-
     controls.classList.remove("hidden");
     clearTimeout(controlsTimer);
     controlsTimer = setTimeout(() => {
