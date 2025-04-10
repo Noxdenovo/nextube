@@ -71,19 +71,11 @@ label:has(.quality-selected) {
   background-color: gray;
 }
 
-.formatted-time {
-  color: white;
-}
-
-.controls-container::before {
+.controls:before {
   content: "";
   position: absolute;
+  inset: 0;
   background-color: black;
   opacity: 0.4;
-  inset: 0;
   z-index: -1;
-}
-
-.controls-container {
-  z-index: 1;
 }
