@@ -79,3 +79,7 @@ label:has(.quality-selected) {
   opacity: 0.4;
   z-index: -1;
 }
+
+.quaility-selected {
+  background-color: grey;
+}

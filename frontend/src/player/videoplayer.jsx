@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import playButton from "../assets/play-button.svg";
 import pauseButton from "../assets/pause-button.svg";
 import fullScreenButton from "../assets/fullscreen-icon.svg";
+import qualityButton from "../assets/gear-button.svg";
 import volumeMutedButton from "../assets/volume-muted-white-icon.svg";
 import volumeFullButton from "../assets/volume-white-icon.svg";
 export function VideoPlayer({ videouuid, timeStampRef, startTime = 0 }) {
@@ -22,6 +23,7 @@ export function VideoPlayer({ videouuid, timeStampRef, startTime = 0 }) {
     player.attachView(video);
     player.setAutoPlay(false);
     playerRef.current = player;
+
     player.updateSettings({
       debug: {
         logLevel: dashjs.Debug.NONE /* turns off console logging */,
@@ -53,15 +55,19 @@ export function VideoPlayer({ videouuid, timeStampRef, startTime = 0 }) {
 
   const controls = document.querySelector(".controls");
   let controlsTimer = setTimeout(() => {
-    controls.classList.add("hidden");
+    if (controls) {
+      controls.classList.add("hidden");
+    }
   }, 2000);
 
   function controlsOnHover() {
-    controls.classList.remove("hidden");
-    clearTimeout(controlsTimer);
-    controlsTimer = setTimeout(() => {
-      controls.classList.add("hidden");
-    }, 2000);
+    if (controls) {
+      controls.classList.remove("hidden");
+      clearTimeout(controlsTimer);
+      controlsTimer = setTimeout(() => {
+        controls.classList.add("hidden");
+      }, 2000);
+    }
   }
   return (
     <>
@@ -145,10 +151,11 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
           ></input>
         </label>
       );
+      console.log(availableQualities);
 
       availableQualities.forEach((element, index) => {
         qualityList.push(
-          <label key={index} htmlFor={`quality-${index}`}>
+          <label key={index + 1} htmlFor={`quality-${index}`}>
             {`${element.height}`}
             <input
               type="radio"
@@ -241,7 +248,7 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
           ></input>
         </div>
       </div>
-      
+
       <div className="flex justify-between">
         <div className="flex  items-center justify-between gap-2 basis-60">
           <button
@@ -287,19 +294,25 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
             {currentFormattedTime}/{durationFormatted}
           </div>
         </div>
-        <button
-          className="h-8 w-6 bg-no-repeat bg-contain bg-center ml-1 mr-2"
-          style={{ backgroundImage: `url("${fullScreenButton} ")` }}
-          onClick={() => {
-            if (document.fullscreenElement) {
-              document.exitFullscreen();
-            } else {
-              container.requestFullscreen();
-            }
-          }}
-        ></button>
+        <div>
+          <button
+            className="h-8 w-6 bg-no-repeat bg-contain bg-center ml-1 mr-2"
+            style={{ backgroundImage: `url("${qualityButton} ")` }}
+          ></button>
+          <button
+            className="h-8 w-6 bg-no-repeat bg-contain bg-center ml-1 mr-2"
+            style={{ backgroundImage: `url("${fullScreenButton} ")` }}
+            onClick={() => {
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              } else {
+                container.requestFullscreen();
+              }
+            }}
+          ></button>
+        </div>
       </div>
-      <div className="text-white">{qualityMenu}</div>
+      <div className="text-white flex flex-col absolute bottom-12 right-3">{qualityMenu}</div>
     </div>
   );
 }
