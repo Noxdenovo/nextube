@@ -98,12 +98,12 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
   const [currentFormattedTime, setFormattedTime] = useState("0:00");
   const [currentVolume, setVolume] = useState(1);
   const [currentPlayback, setPlayback] = useState(0);
-
+  const autoQualityInput = useRef(null);
   const bufferBar = useRef(null);
   let progressBar = useRef(null);
   let trackRef = useRef(null);
   let volumeRef = useRef(null);
-  const availableQualities = player && player.getRepresentationsByType("video");
+  let availableQualities = [];
   player &&
     player.updateSettings({
       streaming: {
@@ -113,19 +113,25 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
       },
     });
   const [qualityMenu, setQualityMenu] = useState([]);
-
   useEffect(() => {
-    if (availableQualities) {
-      for (let adaptationSet of availableQualities) {
-      }
+    if (player) {
+      availableQualities = player.getRepresentationsByType("video");
+      console.log(player);
+      console.log(availableQualities);
+
+      console.log("initialized ");
+
+      console.log(player);
+
       let qualityList = [];
       qualityList.push(
-        <label for="auto-option">
+        <label htmlFor="auto-option" key={0}>
           auto{" "}
           <input
             type="radio"
             name="quality-option"
             id="auto-option"
+            ref={autoQualityInput}
             onInput={() => {
               player &&
                 player.updateSettings({
@@ -166,8 +172,13 @@ function VideoControls({ handlePauseClick, isVideoplaying, videoRef: video, play
         );
       });
       setQualityMenu(qualityList);
+      console.log(autoQualityInput);
     }
   }, [player]);
+
+  useEffect(() => {
+    if (autoQualityInput.current) autoQualityInput.current.checked = true;
+  }, [autoQualityInput]);
 
   function timeFormatter(time) {
     const timeInMinutes = Math.floor(time / 60);
